@@ -10,16 +10,16 @@ public class City {
     public String id="";
 
     @SerializedName("area")
-    public String content="";
+    public int content= 0;
 
     public City(){}
     public void setId(String id){this.id = id;}
-    public void setContent(String content){this.content = content;}
+    public void setContent(int content){this.content = content;}
 
     public String getId(){
         return id;
     }
-    public String getContent(){
+    public int getContent(){
         return content;
     }
 

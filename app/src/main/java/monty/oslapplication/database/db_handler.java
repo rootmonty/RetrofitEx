@@ -40,6 +40,7 @@ public class db_handler extends SQLiteOpenHelper {
 
     public db_handler(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        this.context=context;
     }
 
     /*
@@ -53,7 +54,7 @@ public class db_handler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_TABLE = "CREATE TABLE " +TABLE_NAME+"( "+COLUMN_ID+" INTEGER PRIMARY KEY, "
-                +COLUMN_NAME+" TEXT, "+COLUMN_AREA+" TEXT"+" );";
+                +COLUMN_NAME+" TEXT, "+COLUMN_AREA+" INTEGER "+" );";
         sqLiteDatabase.execSQL(CREATE_TABLE);
 
     }
@@ -93,13 +94,17 @@ public class db_handler extends SQLiteOpenHelper {
 
         City city = new City();
         city.setId(cursor.getString(1));
-        city.setContent(cursor.getString(2));
+        city.setContent(Integer.parseInt(cursor.getString(2)));
 
         cursor.close();
 
         return city;
     }
 
+    public void clearcache(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+TABLE_NAME);
+    }
     public List<City> getAll(){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM "+TABLE_NAME;
@@ -113,7 +118,7 @@ public class db_handler extends SQLiteOpenHelper {
             do{
                 City city = new City();
                 city.setId(cursor.getString(1));
-                city.setContent(cursor.getString(2));
+                city.setContent(Integer.parseInt(cursor.getString(2)));
                 temp.add(city);
             }
             while(cursor.moveToNext());
